@@ -14,6 +14,19 @@ export const createUrl = async (req: Request, res: Response) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).send({ message: "Server error" });
+    }
+};
+
+export const getAllUrls = async (req: Request, res: Response) => {
+    try {
+        const urls = await shortUrl.find();
+        if (urls.length === 0) {
+            res.status(404).send({ message: "No urls found" });
+        }
+        res.status(200).send(urls);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Server error" });
     }
 };
