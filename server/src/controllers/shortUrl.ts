@@ -30,3 +30,20 @@ export const getAllUrls = async (req: Request, res: Response) => {
         res.status(500).send({ message: "Server error" });
     }
 };
+
+export const getUrl = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const url = await shortUrl.findOne({ shortUrl: id });
+        if (!url) {
+            res.status(404).send({ message: "Url not found" });
+        }else{
+            url.clicks++;
+            await url.save();
+            res.redirect(`${url.fullUrl}`);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Server error" });
+    }
+};
