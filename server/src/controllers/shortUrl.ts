@@ -47,3 +47,17 @@ export const getUrl = async (req: Request, res: Response) => {
         res.status(500).send({ message: "Server error" });
     }
 };
+
+export const deleteUrl = async (req: Request, res: Response) => {
+    try {
+        const url = await shortUrl.findByIdAndDelete({ _id: req.params.id });
+        if (url) {
+            res.status(200).send({ message: "Requested URL deleted successfully" });
+        }
+        else{
+            res.status(404).send({ message: "Requested URL not found" });
+        }
+    } catch (error) {
+        res.status(500).send({ message: "Server error" });
+    }
+};
